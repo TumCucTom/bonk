@@ -1,0 +1,31 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Boop! online implementation",
+  "main": "index.js",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces",
+    "build": "npm run build --workspaces"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TumCucTom/bonk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TumCucTom/bonk/issues"
+  },
+  "homepage": "https://github.com/TumCucTom/bonk#readme",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
+  }
+}
