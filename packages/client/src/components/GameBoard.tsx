@@ -1,5 +1,7 @@
 import type { Board, PieceType } from '@boop/game-engine';
 import type { BoopPreview, Coordinate } from '../types/game';
+import { getImagePath } from '../utils/imagePaths';
+import { getPieceImageSeed } from '../utils/pieceImageTracker';
 
 interface GameBoardProps {
   board: Board;
@@ -29,7 +31,15 @@ export function GameBoard(props: GameBoardProps) {
   } = props;
 
   return (
-    <div className="board" role="grid" aria-label="Boop board">
+    <div 
+      className="board" 
+      role="grid" 
+      aria-label="Boop board"
+      style={{ 
+        gridTemplateColumns: `repeat(${board.size}, 1fr)`,
+        gridTemplateRows: `repeat(${board.size}, 1fr)`
+      }}
+    >
       {board.grid.map((row: Board['grid'][number], y: number) =>
         row.map((cell, x) => {
           const key = `${x}-${y}`;
@@ -65,10 +75,19 @@ export function GameBoard(props: GameBoardProps) {
               onMouseLeave={onCellLeave}
             >
               {occupant && (
-                <span className={`piece ${occupant.type} player-${occupant.owner}`} aria-label={`${occupant.type} belonging to player ${occupant.owner}`} />
+                <img 
+                  src={getImagePath(occupant.type, occupant.owner, getPieceImageSeed(board, x, y, occupant.type, occupant.owner))} 
+                  alt={`${occupant.type} belonging to player ${occupant.owner}`}
+                  className={`piece ${occupant.type} player-${occupant.owner}`}
+                />
               )}
               {showGhost && (
-                <span className={`piece ghost ${selectedPiece} player-${board.turn}`} aria-hidden="true" />
+                <img 
+                  src={getImagePath(selectedPiece, board.turn, Math.random() * 1000)} 
+                  alt=""
+                  className={`piece ghost ${selectedPiece} player-${board.turn}`}
+                  aria-hidden="true"
+                />
               )}
               {(previewEffect?.to || impactEffect?.to) && (
                 <span className="boop-arrow" aria-hidden="true" />

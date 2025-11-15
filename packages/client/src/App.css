@@ -20,6 +20,35 @@ header h1 {
   font-size: 2rem;
 }
 
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tabs button {
+  padding: 0.5rem 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  background: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 150ms ease;
+}
+
+.tabs button:hover {
+  background: #f5f5f5;
+}
+
+.tabs button.active {
+  background: #2e7bb5;
+  color: white;
+  border-color: #2e7bb5;
+}
+
+.mode-selector-wrapper {
+  margin-bottom: 0.5rem;
+}
+
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
@@ -34,24 +63,36 @@ header h1 {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  /* grid-template-columns is set dynamically via inline style based on board.size */
   gap: 0.4rem;
   padding: 0.75rem;
   border-radius: 1rem;
   background: linear-gradient(145deg, #f2eadf, #e1d7c5);
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: min(100%, calc(72px * 6 + 0.4rem * 5 + 1.5rem));
+  margin: 0 auto;
+  min-width: 0;
+  grid-auto-rows: 1fr;
+  contain: layout;
 }
 
 .board-cell {
   position: relative;
   padding: 0;
-  width: 72px;
-  height: 72px;
+  aspect-ratio: 1;
   border: none;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.65);
   cursor: pointer;
   transition: transform 120ms ease, background 120ms ease;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .board-cell:disabled {
@@ -91,31 +132,34 @@ header h1 {
 }
 
 .piece {
-  display: inline-flex;
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  width: 66%;
+  height: 66%;
+  max-width: 48px;
+  max-height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
   margin: 0 auto;
   transition: transform 150ms ease;
+  aspect-ratio: 1;
 }
 
 .piece.kitten {
   border: 3px solid currentColor;
-  background: transparent;
+  box-sizing: border-box;
 }
 
 .piece.cat {
-  background: currentColor;
+  border: 6px solid currentColor;
+  box-sizing: border-box;
 }
 
 .piece.player-1 {
-  color: #b156c5;
+  border-color: #2e7bb5; /* Blue for boys */
 }
 
 .piece.player-2 {
-  color: #2e7bb5;
+  border-color: #e91e63; /* Pink for girls */
 }
 
 .piece.ghost {
@@ -291,11 +335,64 @@ header h1 {
   }
 }
 
+.rules-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.rules-content {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 1rem;
+  padding: 2rem;
+  line-height: 1.6;
+}
+
+.rules-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #2e7bb5;
+}
+
+.rules-content h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.rules-content section {
+  margin-bottom: 1.5rem;
+}
+
+.rules-content p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.rules-content ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+  color: #555;
+}
+
+.rules-content li {
+  margin: 0.5rem 0;
+}
+
+.rules-content strong {
+  color: #2e7bb5;
+  font-weight: 600;
+}
+
 @media (max-width: 960px) {
   .layout {
     grid-template-columns: 1fr;
   }
   .board {
     justify-items: center;
+  }
+  .rules-content {
+    padding: 1.5rem;
   }
 }

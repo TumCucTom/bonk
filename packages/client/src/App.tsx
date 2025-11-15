@@ -12,13 +12,17 @@ import { ReservePanel } from './components/ReservePanel';
 import { ModeSelector } from './components/ModeSelector';
 import { ControlBar } from './components/ControlBar';
 import { OnlinePanel } from './components/OnlinePanel';
+import { Rules } from './components/Rules';
 import { computeBoopPreview } from './utils/boopPreview';
 import { hasSupply, needsRemoval } from './utils/boardState';
 import { chooseAiMove } from './ai/aiPlayer';
 import { useOnlineGame } from './network/useOnlineGame';
 import type { BoopPreview, Coordinate, GameMode } from './types/game';
 
+type Tab = 'play' | 'rules';
+
 export default function App() {
+  const [activeTab, setActiveTab] = useState<Tab>('play');
   const [board, setBoard] = useState<Board>(() => createInitialBoard());
   const [mode, setMode] = useState<GameMode>('local');
   const [selectedPiece, setSelectedPiece] = useState<PieceType>('kitten');
@@ -228,6 +232,16 @@ export default function App() {
     return () => window.clearTimeout(timer);
   }, [impactPreview]);
 
+  // Play bonk sound when pieces are booped
+  useEffect(() => {
+    if (!impactPreview || impactPreview.effects.length === 0) return;
+    const audio = new Audio('/bonk.mp3');
+    audio.play().catch((error) => {
+      // Ignore errors (e.g., user hasn't interacted with page yet)
+      console.debug('Could not play bonk sound:', error);
+    });
+  }, [impactPreview]);
+
   useEffect(() => {
     if (hasSupply(board, board.turn, selectedPiece)) return;
     if (hasSupply(board, board.turn, 'kitten')) {
@@ -252,46 +266,70 @@ export default function App() {
   return (
     <div className="app">
       <header>
-        <h1>boop. online</h1>
-        <ModeSelector mode={mode} onChange={handleModeChange} />
-      </header>
-      <div className="layout">
-        <div className="left-panel">
-          <GameBoard
-            board={board}
-            selectedPiece={selectedPiece}
-            preview={preview}
-            impactPreview={impactPreview}
-            pendingRemoval={pendingRemoval}
-            requiresRemoval={requiresRemoval}
-            disabled={boardDisabled}
-            onCellClick={handleCellClick}
-            onCellHover={handleCellHover}
-            onCellLeave={clearPreview}
-          />
-          <ControlBar
-            selectedPiece={selectedPiece}
-            canSelectCat={canSelectCat}
-            onSelectPiece={setSelectedPiece}
-            onReset={handleReset}
-            status={status}
-            aiThinking={aiThinking}
-          />
-          {mode === 'online' && (
-            <OnlinePanel
-              onlineState={online.state}
-              onCreate={(nickname) => online.createRoom(nickname)}
-              onJoin={(room, nickname) => online.joinRoom(room, nickname)}
-              onDisconnect={() => online.disconnect()}
-              onReconnect={() => online.reconnect()}
-              connect={() => online.connect()}
-            />
-          )}
+        <h1>UBSWPC bonk!</h1>
+        <div className="tabs">
+          <button
+            className={activeTab === 'play' ? 'active' : ''}
+            onClick={() => setActiveTab('play')}
+            type="button"
+          >
+            Play
+          </button>
+          <button
+            className={activeTab === 'rules' ? 'active' : ''}
+            onClick={() => setActiveTab('rules')}
+            type="button"
+          >
+            Rules
+          </button>
         </div>
-        <aside>
-          <ReservePanel board={board} />
-        </aside>
-      </div>
+      </header>
+      {activeTab === 'play' ? (
+        <>
+          <div className="mode-selector-wrapper">
+            <ModeSelector mode={mode} onChange={handleModeChange} />
+          </div>
+          <div className="layout">
+            <div className="left-panel">
+              <GameBoard
+                board={board}
+                selectedPiece={selectedPiece}
+                preview={preview}
+                impactPreview={impactPreview}
+                pendingRemoval={pendingRemoval}
+                requiresRemoval={requiresRemoval}
+                disabled={boardDisabled}
+                onCellClick={handleCellClick}
+                onCellHover={handleCellHover}
+                onCellLeave={clearPreview}
+              />
+              <ControlBar
+                selectedPiece={selectedPiece}
+                canSelectCat={canSelectCat}
+                onSelectPiece={setSelectedPiece}
+                onReset={handleReset}
+                status={status}
+                aiThinking={aiThinking}
+              />
+              {mode === 'online' && (
+                <OnlinePanel
+                  onlineState={online.state}
+                  onCreate={(nickname) => online.createRoom(nickname)}
+                  onJoin={(room, nickname) => online.joinRoom(room, nickname)}
+                  onDisconnect={() => online.disconnect()}
+                  onReconnect={() => online.reconnect()}
+                  connect={() => online.connect()}
+                />
+              )}
+            </div>
+            <aside>
+              <ReservePanel board={board} />
+            </aside>
+          </div>
+        </>
+      ) : (
+        <Rules />
+      )}
     </div>
   );
 }

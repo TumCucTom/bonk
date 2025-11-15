@@ -18,7 +18,7 @@ export function ControlBar({ selectedPiece, canSelectCat, onSelectPiece, onReset
           className={selectedPiece === 'kitten' ? 'active' : ''}
           onClick={() => onSelectPiece('kitten')}
         >
-          Kitten
+          Fresher
         </button>
         <button
           type="button"
@@ -26,7 +26,7 @@ export function ControlBar({ selectedPiece, canSelectCat, onSelectPiece, onReset
           onClick={() => onSelectPiece('cat')}
           disabled={!canSelectCat}
         >
-          Cat
+          Senior
         </button>
       </div>
       <div className="status-text">

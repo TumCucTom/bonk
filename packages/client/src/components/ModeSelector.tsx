@@ -5,11 +5,12 @@ interface ModeSelectorProps {
   onChange: (mode: GameMode) => void;
 }
 
+// Temporarily only show Hot-seat mode
 const options: { value: GameMode; label: string; description: string }[] = [
-  { value: 'local', label: 'Hot-seat', description: 'Pass-and-play on one device.' },
-  { value: 'ai-easy', label: 'Solo (Easy)', description: 'Practice against a playful AI.' },
-  { value: 'ai-hard', label: 'Solo (Hard)', description: 'Challenge a more tactical AI.' },
-  { value: 'online', label: 'Online', description: 'Create or join a room via WebSocket.' }
+  { value: 'local', label: 'Hot-seat', description: 'Pass-and-play on one device.' }
+  // { value: 'ai-easy', label: 'Solo (Easy)', description: 'Practice against a playful AI.' },
+  // { value: 'ai-hard', label: 'Solo (Hard)', description: 'Challenge a more tactical AI.' },
+  // { value: 'online', label: 'Online', description: 'Create or join a room via WebSocket.' }
 ];
 
 export function ModeSelector({ mode, onChange }: ModeSelectorProps) {
