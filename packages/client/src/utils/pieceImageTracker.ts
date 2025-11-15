@@ -13,8 +13,8 @@ export function getPieceImageSeed(
   board: Board,
   x: number,
   y: number,
-  pieceType: 'kitten' | 'cat',
-  owner: 1 | 2
+  _pieceType: 'kitten' | 'cat',
+  _owner: 1 | 2
 ): number {
   // Check if we need to rebuild the cache
   if (cachedBoardHistory.length !== board.history.length || 
@@ -65,7 +65,7 @@ export function getPieceImageSeed(
                       prevBoard.grid[cy][cx]?.owner !== prevPiece.owner ||
                       prevBoard.grid[cy][cx]?.type !== prevPiece.type) {
                     // Found where the piece moved to - update tracking
-                    for (const [mid, pos] of piecePositions.entries()) {
+                    for (const [_mid, pos] of piecePositions.entries()) {
                       if (pos.x === px && pos.y === py) {
                         pos.x = cx;
                         pos.y = cy;
