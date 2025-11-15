@@ -16,12 +16,6 @@ export function ReservePanel({ board }: ReservePanelProps) {
             <strong>{board.supply[player].kittens}</strong>
           </div>
           <div className="reserve-row">
-            <span>Seniors unlocked</span>
-            <strong>
-              {board.catsOnBoard[player]} / {board.maxPiecesPerPlayer}
-            </strong>
-          </div>
-          <div className="reserve-row">
             <span>Seniors in supply</span>
             <strong>{board.supply[player].cats}</strong>
           </div>

@@ -6,19 +6,23 @@ const SENIOR_BOYS = [
   'IMG_9703.jpg',
   'IMG_9706.jpg',
   'IMG_9707.jpg',
-  'IMG_9708.jpg'
+  'IMG_9708.jpg',
+  'IMG_9727.HEIC'
 ];
 
 const JUNIOR_BOYS = [
   'IMG_9702.jpg',
   'IMG_9704.jpg',
   'IMG_9705.jpg',
-  'IMG_9722.jpg'
+  'IMG_9722.jpg',
+  'IMG_9726.HEIC'
 ];
 
 const SENIOR_GIRLS = [
   'IMG_9709.jpg',
   'IMG_9710.jpg',
+  'IMG_9717.HEIC',
+  'IMG_9718.HEIC',
   'IMG_9721.jpg',
   'IMG_9723.jpg',
   'IMG_9724.jpg'
@@ -27,8 +31,11 @@ const SENIOR_GIRLS = [
 const JUNIOR_GIRLS = [
   'IMG_9711.jpg',
   'IMG_9712.jpg',
+  'IMG_9715.HEIC',
+  'IMG_9716.HEIC',
   'IMG_9719.jpg',
-  'IMG_9720.jpg'
+  'IMG_9720.jpg',
+  'IMG_9725.HEIC'
 ];
 
 export function getImagePath(pieceType: 'kitten' | 'cat', owner: 1 | 2, seed?: number): string {
